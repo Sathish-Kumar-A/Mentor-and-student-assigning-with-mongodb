@@ -2,6 +2,21 @@ var express = require('express');
 var router = express.Router();
 const { mongodb, db_url, MongoClient, getCollection } = require("../dbConfig");
 
+router.get("/:collectionname", async function (req, res) {
+  const collectionName=req.params.collectionname;
+  const { collection, client } = await getCollection(collectionName);
+  try {
+    let document = await collection.find().toArray();
+    res.status(200).send(document);
+  }
+  catch (err) {
+    res.status(404).send(err);
+  }
+  finally {
+    client.close();
+  }
+  
+})
 
 router.get('/:collectionname/:id', async function (req, res) {
   const {query} = req.query;
@@ -79,7 +94,7 @@ router.put("/mentors/:mentorid", async (req, res) => {
     // getting students who are not assigned to any mentor
     let getStudents = await studentCollection.collection.find({"_id":{$in:idArray}}).toArray();
     const studentArray = getStudents.map((student) => {
-      if (student.mentor!==null) {
+      if (student.mentor===null) {
         return {
           name: student.name,
           id: student._id
