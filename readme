@@ -1,3 +1,11 @@
+URL- "https://mentor-assigning-nodemongo.herokuapp.com/"
+
+To Get all students
+   URL:<url>/students
+
+To get all mentors
+    URL:<url>/mentors
+
 1. To create a mentor
     URL:<url>/mentors/create
     ~ details of mentor to be sent in body
@@ -22,6 +30,8 @@
          ],
         "mentorName":<mentorName>
     }
+
+
 4. To assign a mentor for particular student
 
     URL:<url>/students/:studentid
@@ -37,5 +47,5 @@
 }
 
 5. To get all students assigned to a mentor
-    URL:<url>/mentors/:mentorid/students
+    URL:<url>/mentors/:mentorid?query=students
 
